@@ -1,0 +1,69 @@
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>SQL Injection: Scenario 3</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap-theme.min.css">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+</head>
+<body style="background-color: #f8f9fa;">
+    <div class="container my-5">
+        <h1 class="text-center mb-5">SQL Injection Secnario 3</h1>
+        <br><br>
+
+
+<pre>
+<code>
+Objective:
+    - admin user's age is stored in tbl_post03.
+    - Can you change his age?
+</code>
+</pre>
+        <form method="POST">
+            <h4 class="text-left mb-5">Post a comment as an <code>anonymous</code> user </h4>
+            <label>
+                <input type="text" name="comment" size=100/>
+            </label><br><br>
+            <input type="submit" value="Submit"/><br/>
+        </form>
+
+        <br>
+        {% if error is defined %}
+            Error: {{ error }}
+        <br/>
+        {% endif %}
+            {% if results is defined %}
+            {% if results|length == 0 %}
+            No result found<br/>
+        {% else %}
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Comment</th>
+        <th>City</th>
+        <th>Age</th>
+        <th>User</th>
+    </tr>
+    {% for result in results %}
+    <tr>
+        <td>{{ result[0] }}</td>
+        <td>{{ result[1] }}</td>
+        <td>{{ result[2] }}</td>
+        <td>{{ result[3] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endif %}
+    </div>
+    </div>
+</body>
+</html>

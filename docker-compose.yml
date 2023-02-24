@@ -1,0 +1,21 @@
+version: "2"
+services:
+  app:
+    build: .
+    ports:
+      - "8000:9000"
+    environment:
+      mysql_username: root
+      mysql_password: toor
+      mysql_hostname: db
+      mysql_dbname: vulnapp
+    depends_on:
+      - mariadb
+  mariadb:
+    image: mysql:5.7  # mariadb
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d/:ro
