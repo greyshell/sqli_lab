@@ -4,14 +4,14 @@
 # lab: sqli
 
 
-# case01:
+# scenario-1:
 DROP TABLE vulnapp.tbl_post01;
 
-# case02:
+# scenario-2:
 DROP TABLE vulnapp.tbl_post02;
 DROP TABLE vulnapp.tbl_secret;
 
-# case03:
+# scenario-3:
 DROP TABLE vulnapp.tbl_post03;
 
 DROP DATABASE vulnapp;
