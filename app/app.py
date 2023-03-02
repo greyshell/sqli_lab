@@ -12,33 +12,50 @@ import constants
 import mariadb
 
 templates_path = os.path.abspath(
-        './template/'
+    'template/'
 )
 
 
 def db_config():
-    mysql_host = os.environ.get("MYSQL_HOST", default=constants.MYSQL_HOST)
-    mysql_port = os.environ.get("MYSQL_PORT", default=constants.MYSQL_PORT)
-    mysql_db = os.environ.get("MYSQL_DB", default=constants.MYSQL_DB)
-    try:
-        import keyring
-        # load db creds from linux keyring
-        creds = json.loads(keyring.get_password(constants.KEYRING_SERVICE_NAME, constants.KEYRING_USERNAME))
-        mysql_user = list(creds.keys())[0]
-        mysql_password = list(creds.values())[0]
-
-    except ImportError:
-        # load db creds from env
-        mysql_user = os.environ.get("MYSQL_USER", default=constants.MYSQL_USER)
-        mysql_password = os.environ.get("MYSQL_PASSWORD", default=constants.MYSQL_PASSWORD)
-
-    return {'user': mysql_user,
-            'password': mysql_password,
-            'host': mysql_host,
-            'port': int(mysql_port),
-            'database': mysql_db
+    return {'user': os.environ.get("MARIADB_USER"),
+            'password': os.environ.get("MARIADB_ROOT_PASSWORD"),
+            'database': os.environ.get("MARIADB_DATABASE"),
+            'port': int(os.environ.get("MARIADB_PORT")),
+            'host': os.environ.get("MARIADB_HOST")
             }
+    # mysql_host = os.environ.get("MYSQL_HOST", default=constants.MYSQL_HOST)
+    # mysql_port = os.environ.get("MYSQL_PORT", default=constants.MYSQL_PORT)
+    # mysql_db = os.environ.get("MYSQL_DB", default=constants.MYSQL_DB)
+    # try:
+    #     import keyring
+    #     # load db creds from linux keyring
+    #     creds = json.loads(keyring.get_password(constants.KEYRING_SERVICE_NAME, constants.KEYRING_USERNAME))
+    #     mysql_user = list(creds.keys())[0]
+    #     mysql_password = list(creds.values())[0]
+    #     return {'user': mysql_user,
+    #             'password': mysql_password,
+    #             'host': mysql_host,
+    #             'port': int(mysql_port),
+    #             'database': mysql_db
+    #             }
+    #
+    # except ImportError:
+    #     print("")
+        # load db creds from env
+        # mysql_user = os.environ.get("MYSQL_USER", default=constants.MYSQL_USER)
+        # mysql_password = os.environ.get("MYSQL_PASSWORD", default=constants.MYSQL_PASSWORD)
+        # return {'user': mysql_user,
+        #         'password': mysql_password,
+        #         'host': mysql_host,
+        #         'port': int(mysql_port),
+        #         'database': mysql_db
+        #         }
 
+
+config = db_config()
+print("===================================")
+print(config)
+print("===================================")
 
 app = Flask(__name__, template_folder=templates_path)
 
@@ -54,7 +71,6 @@ def vuln_scenario_1():
         return render_template("scenario-1.html")
     user = request.form.get('user')
 
-    config = db_config()
     conn = mariadb.connect(**config)
     cur = conn.cursor()
 
@@ -79,7 +95,7 @@ def scenario_2():
         return render_template("scenario-2.html")
     comment = request.form.get('comment')
 
-    config = db_config()
+    # config = db_config()
     conn = mariadb.connect(**config)
     cur = conn.cursor()
 
@@ -113,7 +129,7 @@ def tbl_post03():
 
     comment = request.form.get('comment')
 
-    config = db_config()
+    # config = db_config()
     conn = mariadb.connect(**config)
     cur = conn.cursor()
 

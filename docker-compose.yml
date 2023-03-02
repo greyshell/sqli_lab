@@ -1,21 +1,37 @@
-version: "2"
+version: "3"
+
 services:
-  app:
-    build: .
+  flask:
+    container_name: flask
+    build: ./app
     ports:
       - "8000:9000"
     environment:
-      mysql_username: root
-      mysql_password: toor
-      mysql_hostname: db
-      mysql_dbname: vulnapp
+      MARIADB_USER: root
+      MARIADB_ROOT_PASSWORD: toor
+      MARIADB_DATABASE: vulnapp
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: 3000
+    links:
+      - mariadb
     depends_on:
       - mariadb
   mariadb:
-    image: mysql:5.7  # mariadb
-    ports:
-      - "32000:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: toor
+    container_name: mariadb
+    image: mariadb:10.8.3-jammy
+    expose:
+      - 3000
+#    ports:
+#      - "3000:3000"
+    hostname: mariadb
     volumes:
-      - ./db_init:/docker-entrypoint-initdb.d/:ro
+      - ./db:/docker-entrypoint-initdb.d/:ro
+      - type: bind
+        source: ./db/my.cnf  # change the port to 3000
+        target: /etc/my.cnf
+    environment:
+      - MARIADB_ROOT_PASSWORD=toor
+    restart: always
+
+
+
