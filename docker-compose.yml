@@ -3,6 +3,7 @@ version: "3"
 services:
   flask:
     container_name: flask
+    hostname: flask
     build: ./app
     ports:
       - "8000:9000"
@@ -11,7 +12,7 @@ services:
       MARIADB_ROOT_PASSWORD: toor
       MARIADB_DATABASE: vulnapp
       MARIADB_HOST: mariadb
-      MARIADB_PORT: 3000
+      MARIADB_PORT: 3306
     links:
       - mariadb
     depends_on:
@@ -19,16 +20,9 @@ services:
   mariadb:
     container_name: mariadb
     image: mariadb:10.8.3-jammy
-    expose:
-      - 3000
-#    ports:
-#      - "3000:3000"
     hostname: mariadb
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
-      - type: bind
-        source: ./db/my.cnf  # change the port to 3000
-        target: /etc/my.cnf
     environment:
       - MARIADB_ROOT_PASSWORD=toor
     restart: always

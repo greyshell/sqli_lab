@@ -7,8 +7,9 @@ import random
 import string
 from flask import Flask, render_template
 from flask import request
+import keyring
 import json
-import constants
+import CONSTANTS
 import mariadb
 
 templates_path = os.path.abspath(
@@ -17,46 +18,32 @@ templates_path = os.path.abspath(
 
 
 def db_config():
+    if (os.environ.get("MARIADB_USER") is None) or \
+            (os.environ.get("MARIADB_ROOT_PASSWORD") is None) or \
+            (os.environ.get("MARIADB_DATABASE") is None) or \
+            (os.environ.get("MARIADB_PORT") is None) or \
+            (os.environ.get("MARIADB_HOST") is None):
+        # if credentials are not found in env then pick up from keyring
+        creds = json.loads(keyring.get_password(CONSTANTS.KEYRING_SERVICE_NAME, CONSTANTS.KEYRING_USERNAME))
+        user = list(creds.keys())[0]
+        password = list(creds.values())[0]
+
+        return {'user': user,
+                'password': password,
+                'database': CONSTANTS.MARIADB_DB,
+                'port': CONSTANTS.MARIADB_PORT,
+                'host': CONSTANTS.MARIADB_HOST
+                }
+
     return {'user': os.environ.get("MARIADB_USER"),
             'password': os.environ.get("MARIADB_ROOT_PASSWORD"),
             'database': os.environ.get("MARIADB_DATABASE"),
             'port': int(os.environ.get("MARIADB_PORT")),
             'host': os.environ.get("MARIADB_HOST")
             }
-    # mysql_host = os.environ.get("MYSQL_HOST", default=constants.MYSQL_HOST)
-    # mysql_port = os.environ.get("MYSQL_PORT", default=constants.MYSQL_PORT)
-    # mysql_db = os.environ.get("MYSQL_DB", default=constants.MYSQL_DB)
-    # try:
-    #     import keyring
-    #     # load db creds from linux keyring
-    #     creds = json.loads(keyring.get_password(constants.KEYRING_SERVICE_NAME, constants.KEYRING_USERNAME))
-    #     mysql_user = list(creds.keys())[0]
-    #     mysql_password = list(creds.values())[0]
-    #     return {'user': mysql_user,
-    #             'password': mysql_password,
-    #             'host': mysql_host,
-    #             'port': int(mysql_port),
-    #             'database': mysql_db
-    #             }
-    #
-    # except ImportError:
-    #     print("")
-        # load db creds from env
-        # mysql_user = os.environ.get("MYSQL_USER", default=constants.MYSQL_USER)
-        # mysql_password = os.environ.get("MYSQL_PASSWORD", default=constants.MYSQL_PASSWORD)
-        # return {'user': mysql_user,
-        #         'password': mysql_password,
-        #         'host': mysql_host,
-        #         'port': int(mysql_port),
-        #         'database': mysql_db
-        #         }
 
 
 config = db_config()
-print("===================================")
-print(config)
-print("===================================")
-
 app = Flask(__name__, template_folder=templates_path)
 
 
