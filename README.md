@@ -1,8 +1,9 @@
 # sqli_lab
 
-
-To access the lab run the docker compose file and open `http://127.0.0.1:8000/scenario-1`
+Play with `INSERT` and `SELECT` query.
+- Run docker compose file
 ```bash
 # run the app
 sudo docker-compose up
 ```
+- Open `http://127.0.0.1:8000/scenario-1`
