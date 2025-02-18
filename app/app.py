@@ -16,21 +16,28 @@ templates_path = os.path.abspath(
 
 
 def db_config():
-    if (os.environ.get("MARIADB_USER") is None) or \
-            (os.environ.get("MARIADB_PASSWORD") is None) or \
-            (os.environ.get("MARIADB_DATABASE") is None) or \
-            (os.environ.get("MARIADB_PORT") is None) or \
-            (os.environ.get("MARIADB_HOST") is None):
+    # Get environment variables
+    db_user = os.getenv("MARIADB_USER")
+    db_password = os.getenv("MARIADB_ROOT_PASSWORD")
+    db_name = os.getenv("MARIADB_DATABASE")
+    db_host = os.getenv("MARIADB_HOST")
+    db_port = os.getenv("MARIADB_PORT")
+
+    if (db_user is None) or \
+            (db_password is None) or \
+            (db_name is None) or \
+            (db_host is None) or \
+            (db_port is None):
         print("missing environment variable")
         sys.exit(1)
 
 
     return {
-            'host': os.environ.get("MARIADB_HOST"),
-            'database': os.environ.get("MARIADB_DATABASE"),
-            'port': int(os.environ.get("MARIADB_PORT")),
-            'user': os.environ.get("MARIADB_USER"),
-            'password': os.environ.get("MARIADB_PASSWORD"),
+            'host': db_host,
+            'database': db_name,
+            'port': int(db_port),
+            'user': db_user,
+            'password': db_password,
             # 'client_flag': CLIENT.MULTI_STATEMENTS,  # enable multiple statements execution
             }
 
@@ -82,7 +89,6 @@ def scenario_2():
         age = 0  # set default value
         user = 'anonymous'  # set default value
         query = f"INSERT tbl_post02 (comment, pin, age, user) VALUES ('{comment}', {pin}, {age}, '{user}')"
-        # query = f"INSERT tbl_post02 (pin, comment, age, user) VALUES ({pin}, '{comment}', {age}, '{user}')"
         cur.execute(query)
         conn.commit()
 
@@ -187,4 +193,4 @@ def scenario_4():
 
 if __name__ == '__main__':
     # create the database connection
-    app.run(host='0.0.0.0', port=9000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

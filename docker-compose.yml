@@ -6,25 +6,26 @@ services:
     hostname: flask
     build: ./app
     ports:
-      - "8000:9000"
+      - "8000:5000"
     environment:
-      MARIADB_USER: root
-      MARIADB_ROOT_PASSWORD: toor
-      MARIADB_DATABASE: vulnapp
-      MARIADB_HOST: mariadb
-      MARIADB_PORT: 3306
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_HOST=${MARIADB_HOST}
+      - MARIADB_PORT=${MARIADB_PORT}
     links:
       - mariadb
     depends_on:
       - mariadb
+
   mariadb:
     container_name: mariadb
-    image: mariadb:10.8.3-jammy
+    image: mariadb:latest
     hostname: mariadb
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
     environment:
-      - MARIADB_ROOT_PASSWORD=toor
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
     restart: always
 
 
