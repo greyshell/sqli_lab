@@ -1,6 +1,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>SQL Injection: Scenario 3</title>
+    <title>SQL Injection Scenario 3</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- Optional theme -->
@@ -14,15 +14,15 @@
 </head>
 <body style="background-color: #f8f9fa;">
     <div class="container my-5">
-        <h1 class="text-center mb-5">SQL Injection Secnario 3</h1>
+        <h1 class="text-center mb-5">SQL Injection 3</h1>
         <br><br>
 
 
 <pre>
 <code>
 Objective:
-    - admin user's age is stored in tbl_post03.
-    - Can you change his age?
+    - Change the admin user's age and city
+    - Extract all entries from a secret table
 </code>
 </pre>
         <form method="POST">
@@ -51,7 +51,9 @@ Objective:
         <th>Age</th>
         <th>User</th>
     </tr>
+    </thead>
     {% for result in results %}
+    <tbody>
     <tr>
         <td>{{ result[0] }}</td>
         <td>{{ result[1] }}</td>

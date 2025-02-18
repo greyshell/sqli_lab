@@ -1,6 +1,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>SQL Injection Scenario 2</title>
+    <title>SQL Injection Scenario 4</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- Optional theme -->
@@ -14,7 +14,7 @@
 </head>
 <body style="background-color: #f8f9fa;">
     <div class="container my-5">
-        <h1 class="text-center mb-5">SQL Injection Scenario 2</h1>
+        <h1 class="text-center mb-5">SQL Injection Scenario 4</h1>
         <br><br>
 
 
@@ -22,13 +22,12 @@
 <code>
 Objective:
     - Can you retrieve the token(INTEGER) and password(VARCHAR) of the user ‘admin’ from the table tbl_secret?
-    - Can you retrieve the age of the user ‘dhaval’ from the table tbl_post02?
 </code>
 </pre>
         <form method="POST">
-            <h4 class="text-left mb-5">As an <code>anonymous</code> user post your comment</h4>
+            <h4 class="text-left mb-5">As an <code>anonymous</code> user enter your pincode</h4>
             <label>
-                <input type="text" name="comment" size=100/>
+                <input type="text" name="pin" size=100/>
             </label><br><br>
             <input type="submit" value="Submit"/><br/>
         </form>
@@ -46,19 +45,18 @@ Objective:
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Comment</th>
+
         <th>Pin</th>
-        <th>Age</th>
-        <th>User</th>
+
     </tr>
     </thead>
     {% for result in results %}
     <tbody>
     <tr>
+
         <td>{{ result[0] }}</td>
-        <td>{{ result[1] }}</td>
-        <td>{{ result[2] }}</td>
-        <td>{{ result[3] }}</td>
+
+
     </tr>
     {% endfor %}
     </tbody>

@@ -3,7 +3,7 @@
 # usage: mysql -u root --password=<pass> < clean_tbl.sql
 # lab: sqli
 
-# scenario-1: clear all user comments
+# scenario-1 SELECT query: clear all user comments
 # DELETE FROM vulnapp.tbl_post01;
 
 # scenario-2: clear all posts, not created by 'asinha'

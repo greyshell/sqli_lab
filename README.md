@@ -2,6 +2,7 @@
 
 Play with `INSERT` and `SELECT` query.
 - Run docker compose file
+
 ```bash
 # run the app
 sudo docker-compose up

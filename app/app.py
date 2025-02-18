@@ -4,13 +4,11 @@
 
 import os
 import random
-import string
 from flask import Flask, render_template
 from flask import request
-import keyring
-import json
-import CONSTANTS
-import mariadb
+import sys
+import pymysql
+import string
 
 templates_path = os.path.abspath(
     'template/'
@@ -19,27 +17,21 @@ templates_path = os.path.abspath(
 
 def db_config():
     if (os.environ.get("MARIADB_USER") is None) or \
-            (os.environ.get("MARIADB_ROOT_PASSWORD") is None) or \
+            (os.environ.get("MARIADB_PASSWORD") is None) or \
             (os.environ.get("MARIADB_DATABASE") is None) or \
             (os.environ.get("MARIADB_PORT") is None) or \
             (os.environ.get("MARIADB_HOST") is None):
-        # if credentials are not found in env then pick up from keyring
-        creds = json.loads(keyring.get_password(CONSTANTS.KEYRING_SERVICE_NAME, CONSTANTS.KEYRING_USERNAME))
-        user = list(creds.keys())[0]
-        password = list(creds.values())[0]
+        print("missing environment variable")
+        sys.exit(1)
 
-        return {'user': user,
-                'password': password,
-                'database': CONSTANTS.MARIADB_DB,
-                'port': CONSTANTS.MARIADB_PORT,
-                'host': CONSTANTS.MARIADB_HOST
-                }
 
-    return {'user': os.environ.get("MARIADB_USER"),
-            'password': os.environ.get("MARIADB_ROOT_PASSWORD"),
+    return {
+            'host': os.environ.get("MARIADB_HOST"),
             'database': os.environ.get("MARIADB_DATABASE"),
             'port': int(os.environ.get("MARIADB_PORT")),
-            'host': os.environ.get("MARIADB_HOST")
+            'user': os.environ.get("MARIADB_USER"),
+            'password': os.environ.get("MARIADB_PASSWORD"),
+            # 'client_flag': CLIENT.MULTI_STATEMENTS,  # enable multiple statements execution
             }
 
 
@@ -58,7 +50,7 @@ def vuln_scenario_1():
         return render_template("scenario-1.html")
     user = request.form.get('user')
 
-    conn = mariadb.connect(**config)
+    conn = pymysql.connect(**config)
     cur = conn.cursor()
 
     try:
@@ -70,7 +62,7 @@ def vuln_scenario_1():
 
         return render_template("scenario-1.html", results=rows)
 
-    except mariadb.Error as e:
+    except pymysql.Error as e:
         print(f"Error: {e}")
         cur.close()
         conn.close()
@@ -82,8 +74,7 @@ def scenario_2():
         return render_template("scenario-2.html")
     comment = request.form.get('comment')
 
-    # config = db_config()
-    conn = mariadb.connect(**config)
+    conn = pymysql.connect(**config)
     cur = conn.cursor()
 
     try:
@@ -91,10 +82,11 @@ def scenario_2():
         age = 0  # set default value
         user = 'anonymous'  # set default value
         query = f"INSERT tbl_post02 (comment, pin, age, user) VALUES ('{comment}', {pin}, {age}, '{user}')"
+        # query = f"INSERT tbl_post02 (pin, comment, age, user) VALUES ({pin}, '{comment}', {age}, '{user}')"
         cur.execute(query)
         conn.commit()
 
-        # retrive the data
+        # retrieve the data
         query = "SELECT comment, pin, age, user FROM tbl_post02 WHERE user = 'anonymous'"
         cur.execute(query)
         rows = cur.fetchall()
@@ -103,7 +95,7 @@ def scenario_2():
         conn.close()
         return render_template("scenario-2.html", results=rows)
 
-    except mariadb.Error as e:
+    except pymysql.Error as e:
         print(f"Error: {e}")
         cur.close()
         conn.close()
@@ -116,8 +108,7 @@ def tbl_post03():
 
     comment = request.form.get('comment')
 
-    # config = db_config()
-    conn = mariadb.connect(**config)
+    conn = pymysql.connect(**config)
     cur = conn.cursor()
 
     # set default values and generate a random user
@@ -154,7 +145,41 @@ def tbl_post03():
         cur.close()
         return render_template("scenario-3.html", results=rows)
 
-    except mariadb.Error as e:
+    except pymysql.Error as e:
+        print(f"Error: {e}")
+        cur.close()
+        conn.close()
+
+
+@app.route('/scenario-4', methods=['GET', 'POST'])
+def scenario_4():
+    if request.method == 'GET':
+        return render_template("scenario-4.html")
+    pin = request.form.get('pin')
+
+    conn = pymysql.connect(**config)
+    cur = conn.cursor()
+
+    try:
+        comment = "anything"  # set default value
+        age = 20  # set default value
+        user = 'anonymous'  # set default value
+
+        query = f"INSERT tbl_post02 (pin, comment, age, user) VALUES ({pin}, '{comment}', {age}, '{user}')"
+
+        cur.execute(query)
+        conn.commit()
+
+        # retrieve the data
+        query = "SELECT pin FROM tbl_post02 WHERE user = 'anonymous'"
+        cur.execute(query)
+        rows = cur.fetchall()
+
+        cur.close()
+        conn.close()
+        return render_template("scenario-4.html", results=rows)
+
+    except pymysql.Error as e:
         print(f"Error: {e}")
         cur.close()
         conn.close()

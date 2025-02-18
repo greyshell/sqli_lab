@@ -14,4 +14,5 @@ DROP TABLE vulnapp.tbl_secret;
 # scenario-3:
 DROP TABLE vulnapp.tbl_post03;
 
+# drop the database for project
 DROP DATABASE vulnapp;

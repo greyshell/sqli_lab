@@ -1,6 +1,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>SQL Injection: Scenario 2</title>
+    <title>SQL Injection Scenario 2</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- Optional theme -->
@@ -14,20 +14,22 @@
 </head>
 <body style="background-color: #f8f9fa;">
     <div class="container my-5">
-        <h1 class="text-center mb-5">SQL Injection Secnario 2</h1>
+        <h1 class="text-center mb-5">SQL Injection Scenario 2</h1>
         <br><br>
 
 
 <pre>
 <code>
 Objective:
-    - Find admin user's token(INTEGER) and password(VARCHAR) from tbl_secret
+    - Can you retrieve the token(INTEGER) and password(VARCHAR) of the user ‘admin’ from the table tbl_secret?
+    - Can you retrieve the age of the user ‘dhaval’ from the table tbl_post02?
+    - Can you retrieve the age of the user ‘dhaval’ from the table tbl_post03?
 </code>
 </pre>
         <form method="POST">
-            <h4 class="text-left mb-5">Post a comment as an <code>anonymous</code> user </h4>
+            <h4 class="text-left mb-5">As an <code>anonymous</code> user post your comment</h4>
             <label>
-                <input type="text" name="user" size=100/>
+                <input type="text" name="comment" size=100/>
             </label><br><br>
             <input type="submit" value="Submit"/><br/>
         </form>
@@ -50,7 +52,9 @@ Objective:
         <th>Age</th>
         <th>User</th>
     </tr>
+    </thead>
     {% for result in results %}
+    <tbody>
     <tr>
         <td>{{ result[0] }}</td>
         <td>{{ result[1] }}</td>
