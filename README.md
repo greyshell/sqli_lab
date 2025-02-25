@@ -10,6 +10,9 @@ Play with `INSERT` and `SELECT` query.
 # run the app in detached  mode
 sudo docker-compose up --build -d
 
+# open the app
+http://127.0.0.1:8000/scenario-1
+
 # stop and delete the container
 sudo docker-compose down
 
@@ -17,4 +20,3 @@ sudo docker-compose down
 chmod a+x clean_docker.sh 
 ./clean_docker.sh
 ```
-- Open `http://127.0.0.1:8000/scenario-1`
