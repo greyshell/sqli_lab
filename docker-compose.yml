@@ -14,7 +14,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      - sqli-lab-network
+      - lab-network
 
   mariadb:
     container_name: mariadb
@@ -23,13 +23,13 @@ services:
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
     environment:
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-toor}  # Fallback to 'toor' if not provided
+      MARIADB_ROOT_PASSWORD: toor  # Fallback to 'toor' if not provided
     restart: always
     networks:
-      - sqli-lab-network
+      - lab-network
 
 networks:
-  sqli-lab-network:
+  lab-network:
     driver: bridge
 
 
