@@ -12,7 +12,7 @@ services:
       MARIADB_HOST: mariadb
       MARIADB_PORT: 3306
     depends_on:
-      - sqli_mariadb
+      - mariadb
     networks:
       - lab-network
 
