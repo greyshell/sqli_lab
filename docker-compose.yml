@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   flask:
     container_name: flask
@@ -13,10 +11,10 @@ services:
       MARIADB_DATABASE: vulnapp
       MARIADB_HOST: mariadb
       MARIADB_PORT: 3306
-    links:
-      - mariadb
     depends_on:
       - mariadb
+    networks:
+      - sqli-lab-network
 
   mariadb:
     container_name: mariadb
@@ -25,8 +23,13 @@ services:
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
     environment:
-      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-toor}  # Fallback to 'toor' if not provided
     restart: always
+    networks:
+      - sqli-lab-network
 
+networks:
+  sqli-lab-network:
+    driver: bridge
 
 
