@@ -5,10 +5,7 @@ WORKDIR /app
 
 # install dependencies
 RUN apt-get update
-RUN apt-get install -y \
-    libmariadb3 libmariadb-dev  gcc wget curl \
-    python3-dev default-libmysqlclient-dev \
-    build-essential
+RUN apt-get install -y libmariadb3 libmariadb-dev gcc wget curl python3-dev default-libmysqlclient-dev build-essential
 
 # set up database
 RUN wget https://r.mariadb.com/downloads/mariadb_repo_setup

@@ -20,7 +20,7 @@ services:
 
   mariadb:
     container_name: mariadb
-    image: mariadb:latest
+    image: mariadb:11.8.1-ubi9-rc
     hostname: mariadb
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
