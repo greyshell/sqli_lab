@@ -1,6 +1,6 @@
 services:
   flask:
-    container_name: flask
+    container_name: sqli_flask
     hostname: flask
     build: ./app
     ports:
@@ -12,18 +12,18 @@ services:
       MARIADB_HOST: mariadb
       MARIADB_PORT: 3306
     depends_on:
-      - mariadb
+      - sqli_mariadb
     networks:
       - lab-network
 
   mariadb:
-    container_name: mariadb
+    container_name: sqli_mariadb
     image: mariadb:11.8.1-ubi9-rc
     hostname: mariadb
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
     environment:
-      MARIADB_ROOT_PASSWORD: toor  # Fallback to 'toor' if not provided
+      MARIADB_ROOT_PASSWORD: toor
     restart: always
     networks:
       - lab-network
