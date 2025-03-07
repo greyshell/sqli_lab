@@ -29,6 +29,7 @@ def db_config():
             (db_host is None) or \
             (db_port is None):
         print("missing environment variable")
+        print(f"{db_user}, {db_password}, {db_name}, {db_host}, {db_port}")
         sys.exit(1)
 
 
