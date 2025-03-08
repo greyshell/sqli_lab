@@ -14,5 +14,8 @@ DROP TABLE vulnapp.tbl_secret;
 # scenario-3:
 DROP TABLE vulnapp.tbl_post03;
 
+DROP TABLE vulnapp.tbl_php_users;
+
+
 # drop the database for project
 DROP DATABASE vulnapp;

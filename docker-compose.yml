@@ -2,9 +2,26 @@ services:
   flask:
     container_name: sqli_flask
     hostname: flask
-    build: ./app
+    build: ./flask_app
     ports:
       - "8000:5000"
+    environment:
+      MARIADB_USER: root
+      MARIADB_ROOT_PASSWORD: toor
+      MARIADB_DATABASE: vulnapp
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: 3306
+    depends_on:
+      - mariadb
+    networks:
+      - lab-network
+
+  php_apache:
+    container_name: sqli_php_apache
+    hostname: php_apache
+    build: ./php_app
+    ports:
+      - "8010:80"
     environment:
       MARIADB_USER: root
       MARIADB_ROOT_PASSWORD: toor

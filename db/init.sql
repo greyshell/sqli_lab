@@ -73,3 +73,15 @@ CREATE TABLE IF NOT EXISTS vulnapp.tbl_post04
     comment    VARCHAR(30) NOT NULL,
     comment_id INT         NOT NULL
 );
+
+
+# sqli_php scenario
+CREATE TABLE IF NOT EXISTS vulnapp.tbl_php_users (
+    uid VARCHAR(20) NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    address VARCHAR(30) NOT NULL
+);
+
+INSERT INTO vulnapp.tbl_php_users (uid, username, address) VALUES ('000-administrator', 'administrator', 'mountain view');
+INSERT INTO vulnapp.tbl_php_users (uid, username, address) VALUES ('111-asinha', 'asinha', 'gilroy');
+INSERT INTO vulnapp.tbl_php_users (uid, username, address) VALUES ('2222-soham', 'soham', 'san jose');
