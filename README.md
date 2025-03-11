@@ -24,6 +24,9 @@ chmod a+x clean_docker.sh
 ./clean_docker.sh
 ```
 
+## local python development notes
+
+- run the app from pycharm
 
 ## local php development notes
 
