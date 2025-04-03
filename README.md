@@ -26,9 +26,19 @@ chmod a+x clean_docker.sh
 
 ## local python development notes
 - check if you are in dev branch, if not then checkout to dev branch
-- add new feature
 - start mariadb service
 - set the env variables before running app.py in pycharm
+- add new feature
+- git add all modified + new files
+- git commit -S -m "message"
+- check the git status
+- git checkout main
+- git merge dev
+  - git add modified files if any
+  - git commit
+  - git push to remote main
+- switch back to dev 
+  - git merge main to get the latest updated codes
 ```
 MARIADB_USER=root
 MARIADB_ROOT_PASSWORD=toor
