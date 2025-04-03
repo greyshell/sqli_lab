@@ -11,7 +11,7 @@ import pymysql
 import string
 
 templates_path = os.path.abspath(
-    'template/'
+    'templates/'
 )
 
 
@@ -185,6 +185,38 @@ def scenario_4():
         cur.close()
         conn.close()
         return render_template("scenario-4.html", results=rows)
+
+    except pymysql.Error as e:
+        print(f"Error: {e}")
+        cur.close()
+        conn.close()
+
+
+@app.route('/scenario-5', methods=['GET', 'POST'])
+def vuln_scenario_5():
+    if request.method == 'GET':
+        return render_template("scenario-5.html")
+
+    sort_param = request.form.get('sort_param')
+    # valid_column_names = ['pin', 'comment', 'age', 'user']
+    # valid_column_numbers = ['1', '2', '3', '4']
+    # if (sort_param not in valid_column_names and
+    #         sort_param not in valid_column_numbers):
+    #     rows = []
+    #     return render_template("scenario-5.html", results=rows)
+
+    conn = pymysql.connect(**config)
+    cur = conn.cursor()
+
+    try:
+        # order of columns - comment, pin, age, user
+        query = f"SELECT * FROM tbl_post02 WHERE user = 'anonymous' ORDER BY {sort_param}"
+        cur.execute(query)
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        return render_template("scenario-5.html", results=rows)
 
     except pymysql.Error as e:
         print(f"Error: {e}")

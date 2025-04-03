@@ -25,8 +25,17 @@ chmod a+x clean_docker.sh
 ```
 
 ## local python development notes
-
-- run the app from pycharm
+- check if you are in dev branch, if not then checkout to dev branch
+- add new feature
+- start mariadb service
+- set the env variables before running app.py in pycharm
+```
+MARIADB_USER=root
+MARIADB_ROOT_PASSWORD=toor
+MARIADB_DATABASE=vulnapp
+MARIADB_HOST=localhost
+MARIADB_PORT=3306
+```
 
 ## local php development notes
 
