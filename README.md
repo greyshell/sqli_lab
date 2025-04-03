@@ -28,6 +28,13 @@ chmod a+x clean_docker.sh
 - check if you are in dev branch, if not then checkout to dev branch
 - start mariadb service
 - set the env variables before running app.py in pycharm
+```
+MARIADB_USER=root
+MARIADB_ROOT_PASSWORD=toor
+MARIADB_DATABASE=vulnapp
+MARIADB_HOST=localhost
+MARIADB_PORT=3306
+```
 - add new feature
 - git add all modified + new files
 - git commit -S -m "message"
@@ -39,13 +46,6 @@ chmod a+x clean_docker.sh
   - git push to remote main
 - switch back to dev 
   - git merge main to get the latest updated codes
-```
-MARIADB_USER=root
-MARIADB_ROOT_PASSWORD=toor
-MARIADB_DATABASE=vulnapp
-MARIADB_HOST=localhost
-MARIADB_PORT=3306
-```
 
 ## local php development notes
 
